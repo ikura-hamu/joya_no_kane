@@ -46,7 +46,7 @@ func main() {
 	}
 
 	for i := 0; i < BELL_TIMERS; i++ {
-		t := fmt.Sprintf("%d %d 31 12 *", 59-(i%60), 14-i/60)
+		t := fmt.Sprintf("%d %d 31 12 *", 59-(i%60), 23-i/60)
 		log.Println(t)
 		_, err := c.AddFunc(t, postMessage)
 		if err != nil {
