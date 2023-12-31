@@ -66,7 +66,7 @@ var messages = []string{
 	strings.Repeat(":bell:", 100),
 	":no_bell:",
 	":bellhop:", //🛎
-	":410_gone:",
+	":bell.ex-large.wiggle:",
 }
 
 func postMessage() {
