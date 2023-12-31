@@ -36,7 +36,7 @@ func main() {
 			traqwriter.DefaultHTTPOrigin,
 		)
 		log.Println("Writing to traQ")
-		_, err := w.Write([]byte("🔔 起動"))
+		_, err := w.Write([]byte(":bell: 起動"))
 		if err != nil {
 			panic(err)
 		}
@@ -62,15 +62,15 @@ func main() {
 var w io.Writer
 
 var messages = []string{
-	"🔔🔔🔔",
-	strings.Repeat("🔔", 100),
-	"🔕",
+	":bell::bell::bell:",
+	strings.Repeat(":bell:", 100),
+	":no_bell:",
 	":bellhop:", //🛎
 	":410_gone:",
 }
 
 func postMessage() {
-	message := "🔔"
+	message := ":bell:"
 	id := randSeed.Intn(100)
 	if id < 5 {
 		message = messages[id]
