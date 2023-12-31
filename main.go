@@ -36,7 +36,10 @@ func main() {
 			traqwriter.DefaultHTTPOrigin,
 		)
 		log.Println("Writing to traQ")
-		w.Write([]byte("🔔 起動"))
+		_, err := w.Write([]byte("🔔 起動"))
+		if err != nil {
+			panic(err)
+		}
 	default:
 		w = os.Stdout
 		log.Println("No TARGET specified, writing to stdout")
