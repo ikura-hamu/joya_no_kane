@@ -67,12 +67,15 @@ var messages = []string{
 	":no_bell:",
 	":bellhop:", //🛎
 	":bell.ex-large.wiggle:",
+ ":joshua_bell:",
+ ":Weepinbell:",
+ ":bell_pepper:",
 }
 
 func postMessage() {
 	message := ":bell:"
 	id := randSeed.Intn(100)
-	if id < 5 {
+	if id < len(messages) {
 		message = messages[id]
 	}
 
