@@ -48,7 +48,7 @@ func main() {
 	for i := 0; i < BELL_TIMERS; i++ {
 		t := fmt.Sprintf("%d %d 31 12 *", 59-(i%60), 23-i/60)
 		log.Println(t)
-		_, err := c.AddFunc(t, postMessage)
+		_, err := c.AddFunc(t, postMessage(i+1))
 		if err != nil {
 			panic(err)
 		}
@@ -67,20 +67,23 @@ var messages = []string{
 	":no_bell:",
 	":bellhop:", //🛎
 	":bell.ex-large.wiggle:",
- ":joshua_bell:",
- ":Weepinbell:",
- ":bell_pepper:",
+	":joshua_bell:",
+	":Weepinbell:",
+	":bell_pepper:",
 }
 
-func postMessage() {
-	message := ":bell:"
-	id := randSeed.Intn(100)
-	if id < len(messages) {
-		message = messages[id]
-	}
+func postMessage(count int) func() {
+	return func() {
+		message := ":bell:"
+		id := randSeed.Intn(100)
+		if id < len(messages) {
+			message = messages[id]
+		}
+		message = fmt.Sprintf("%s (%d)", message, count)
 
-	_, err := w.Write([]byte(message))
-	if err != nil {
-		log.Println(err)
+		_, err := w.Write([]byte(message))
+		if err != nil {
+			log.Println(err)
+		}
 	}
 }
