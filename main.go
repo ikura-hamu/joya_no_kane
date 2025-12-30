@@ -45,13 +45,28 @@ func main() {
 		log.Println("No TARGET specified, writing to stdout")
 	}
 
+	nextYear := time.Now().Year() + 1
+	newYearTime := time.Date(nextYear, 1, 1, 0, 0, 0, 0, jst)
+	cronTime := newYearTime
 	for i := 0; i < BELL_TIMERS; i++ {
-		t := fmt.Sprintf("%d %d 31 12 *", 59-(i%60), 23-i/60)
+		// 01/02 03:04:05PM '06 -0700
+		t := cronTime.Format("04 03 02 01 *")
 		log.Println(t)
-		_, err := c.AddFunc(t, postMessage(i+1))
+		_, err := c.AddFunc(t, postMessage(i))
 		if err != nil {
 			panic(err)
 		}
+		cronTime = cronTime.Add(-time.Minute)
+	}
+
+	_, err = c.AddFunc("00 22 31 12 *", func() {
+		_, err := fmt.Fprintf(w, "%s (1-108)\n:tada:", strings.Repeat(":bell:", BELL_TIMERS))
+		if err != nil {
+			log.Println(err)
+		}
+	})
+	if err != nil {
+		panic(err)
 	}
 
 	c.Start()
@@ -64,17 +79,29 @@ var w io.Writer
 var messages = []string{
 	":bell::bell::bell:",
 	strings.Repeat(":bell:", 100),
-	":no_bell:",
-	":bellhop:", //🛎
+	":no_bell.large:",
+	":bellhop.large:", //🛎
 	":bell.ex-large.wiggle:",
-	":joshua_bell:",
-	":Weepinbell:",
-	":bell_pepper:",
+	":joshua_bell.large:",
+	":Weepinbell.large:",
+	":bell_pepper.large:",
+	`:null::null::null::null::bell::null::null::null::null:
+:null::null::bell::bell::bell::bell::bell::null::null:
+:null::bell::bell::bell::bell::bell::bell::bell::null:
+:null::bell::bell::bell::bell::bell::bell::bell::null:
+:null::bell::bell::bell::bell::bell::bell::bell::null:
+:null::bell::bell::bell::bell::bell::bell::bell::null:
+:null::bell::bell::bell::bell::bell::bell::bell::null:
+:null::bell::bell::bell::bell::bell::bell::bell::null:
+:bell::bell::bell::bell::bell::bell::bell::bell::bell:
+:null::null::null::null::bell::null::null::null::null:
+`,
+	":ka-n_zubora.large:",
 }
 
 func postMessage(count int) func() {
 	return func() {
-		message := ":bell:"
+		message := ":bell.large:"
 		id := randSeed.Intn(100)
 		if id < len(messages) {
 			message = messages[id]
