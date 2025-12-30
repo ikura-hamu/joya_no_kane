@@ -1,6 +1,6 @@
 module github.com/ikura-hamu/joya_no_kane
 
-go 1.21.4
+go 1.25
 
 require (
 	github.com/ras0q/traq-writer v1.3.0
