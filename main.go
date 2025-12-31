@@ -46,11 +46,11 @@ func main() {
 	}
 
 	nextYear := time.Now().Year() + 1
-	newYearTime := time.Date(nextYear, 1, 1, 0, 0, 0, 0, jst)
+	newYearTime := time.Date(nextYear, time.January, 1, 0, 0, 0, 0, jst)
 	cronTime := newYearTime
-	for i := 0; i < BELL_TIMERS; i++ {
+	for i := range BELL_TIMERS {
 		// 01/02 03:04:05PM '06 -0700
-		t := cronTime.Format("04 03 02 01 *")
+		t := cronTime.Format("04 15 02 01 *")
 		log.Println(t)
 		_, err := c.AddFunc(t, postMessage(i))
 		if err != nil {
